@@ -33,6 +33,12 @@ console.log(MY_FAVORITE_BRANDS[0]);
 // 2. Log the variable
 
 
+link1 = "https://hopaal.com/collections/t-shirts-homme/products/classique-forest-t-shirt-homme?variant=19733822111830";
+console.log(link1);
+link2 = "https://www.loom.fr/products/le-t-shirt"
+console.log(link2)
+link3 = "https://adresse.paris/t-shirts-et-polos/3894-t-shirt-villette-1300000238403.html"
+console.log(link3)
 
 
 
