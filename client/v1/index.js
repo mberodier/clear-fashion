@@ -43,11 +43,11 @@ console.log(link3);
 
 
 /**
- * 👕
- * Easy 😁?
- * Now we manipulate the variable `marketplace`
- * `marketplace` is a list of products from several brands e-shops
- * The variable is loaded by the file data.js
+ *  👕
+ *  Easy 😁?
+ *  Now we manipulate the variable `marketplace`
+ *  `marketplace` is a list of products from several brands e-shops
+ *  The variable is loaded by the file data.js 
  * 👕
  */
 
@@ -210,9 +210,9 @@ console.log(brands_sorted_date);
 
 /**
  * 💶
- * Let's talk about money now
- * Do some Maths
- * 💶
+ *  Let's talk about money now
+ *  Do some Maths
+ *  💶
  */
 
 // 🎯 TODO: Compute the p90 price value
