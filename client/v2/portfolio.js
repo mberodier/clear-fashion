@@ -116,8 +116,20 @@ selectShow.addEventListener('change', event => {
     .then(() => render(currentProducts, currentPagination));
 });
 
-document.addEventListener('DOMContentLoaded', () =>
-  fetchProducts()
+selectPage.addEventListener('change', event => {
+  fetchProducts(parseInt(event.target.value), currentPagination.pageSize)
     .then(setCurrentProducts)
-    .then(() => render(currentProducts, currentPagination))
-);
+    .then(() => render(currentProducts, currentPagination));
+});
+
+selectBrand.addEventListener('change', event => {
+  fetchProducts(currentPagination.currentPage, currentPagination.pageSize)
+    .then(setCurrentProducts)
+    .then(() => render(currentProducts.filter(product => event.target.value!="all"? product.brand == event.target.value : true), currentPagination));
+});
+
+document.addEventListener('DOMContentLoaded', async() =>{
+  const products = await fetchProducts();
+    setCurrentProducts(products);
+    render(currentProducts, currentPagination);
+});
