@@ -133,3 +133,25 @@ document.addEventListener('DOMContentLoaded', async() =>{
     setCurrentProducts(products);
     render(currentProducts, currentPagination);
 });
+
+/** 
+ * Browsing the page*
+ * @type {[type]}
+*/
+
+selectPage.addEventListener('change', async(event) => {
+
+  var products = await   fetchProducts(parseInt(event.target.value),currentPagination.pageCount)
+  setCurrentProducts(products)
+    render(currentProducts, currentPagination)
+
+
+});
+document.addEventListener('DOMContentLoaded', async () => {
+
+  const products = await fetchProducts();
+
+  setCurrentProducts(products);
+  render(currentProducts, currentPagination);
+});
+
