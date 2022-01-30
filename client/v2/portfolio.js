@@ -155,3 +155,23 @@ document.addEventListener('DOMContentLoaded', async () => {
   render(currentProducts, currentPagination);
 });
 
+
+ /**
+   *  Filter by brands
+   * @type {[type]}
+   */
+
+  selectBrand.addEventListener('change', async(event) => {
+
+    var products = await   fetchProducts(currentPagination.currentPage,currentPagination.pageCount)
+    const b=all_brand.slice(1)
+    setCurrentProducts(products)
+
+    if (b.includes(event.target.value)){
+      var filtered =currentProducts.filter(function(item,idx){return item.brand==event.target.value});
+      render(filtered, currentPagination);
+    }
+
+  });
+
+
