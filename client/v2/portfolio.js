@@ -175,3 +175,35 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
 
+
+
+   /**
+    * Filter by recent products
+    */
+    var today = new Date();
+    var today = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+
+selectRecent.addEventListener('change', async(event) => {
+    var products = await   fetchProducts(currentPagination.currentPage,currentPagination.pageCount)
+    setCurrentProducts(products)
+    var filtered =currentProducts.filter(function(item,idx){return new Date(today).getTime()-new Date(item.released).getTime()<=12096e5});
+    render(filtered, currentPagination);
+
+   });
+
+
+   /**
+    * Filter by reasonable price
+    */
+
+selectReasonable.addEventListener('change', async(event) => {
+  var products = await   fetchProducts(currentPagination.currentPage,currentPagination.pageCount)
+  setCurrentProducts(products)
+  var filtered =currentProducts.filter(function(item,idx){return item.price<=50});
+  render(filtered, currentPagination);
+
+ });
+
+
+
+
