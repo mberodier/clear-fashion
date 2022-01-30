@@ -205,5 +205,51 @@ selectReasonable.addEventListener('change', async(event) => {
  });
 
 
+  /**
+       *  Sort
+       */
+   function sortByPriceAsc(x){
+    return x.sort(function(x1,x2){return x1.price-x2.price})
+  }
+
+  function sortByDate(x){
+    return x.sort(function(x1,x2){return new Date(x2.released)-new Date(x1.released)})
+  }
+
+selectSort.addEventListener('change', async(event) => {
+var products = await   fetchProducts(currentPagination.currentPage,currentPagination.pageCount)
+setCurrentProducts(products)
+ if (event.target.value=="choose") {
+   var products = await   fetchProducts(currentPagination.currentPage,currentPagination.pageCount)
+   setCurrentProducts(products)
+   render(currentProducts, currentPagination)
+ }
+ else if (event.target.value=="price-asc") {
+   var sorted = sortByPriceAsc(currentProducts)
+   render(currentProducts, currentPagination)
+
+ }
+ else if (event.target.value=="price-desc") {
+   var sorted = sortByPriceAsc(currentProducts).reverse()
+   render(currentProducts, currentPagination)
+
+ }
+ else if (event.target.value=="date-asc") {
+   var sorted = sortByDate(currentProducts)
+   render(currentProducts, currentPagination)
+
+ }
+ else if (event.target.value=="date-desc") {
+   var sorted = sortByDate(currentProducts).reverse()
+   render(currentProducts, currentPagination)
+
+ }
+});
+
+
+
+
+
+
 
 
