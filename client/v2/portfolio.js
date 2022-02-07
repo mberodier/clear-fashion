@@ -5,7 +5,7 @@
 let currentProducts = [];
 let currentPagination = {};
 
-// inititiqte selectors
+// instantiate the selectors
 const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
 const sectionProducts = document.querySelector('#products');
@@ -45,6 +45,7 @@ const fetchProducts = async (page = 1, size = 12) => {
     return {currentProducts, currentPagination};
   }
 };
+
 
 /**
  * Render list of products
@@ -108,13 +109,14 @@ const render = (products, pagination) => {
 
 /**
  * Select the number of products to display
- * @type {[type]}
  */
-selectShow.addEventListener('change', event => {
-  fetchProducts(currentPagination.currentPage, parseInt(event.target.value))
-    .then(setCurrentProducts)
-    .then(() => render(currentProducts, currentPagination));
+selectShow.addEventListener('change', async (event) => {
+  const products = await fetchProducts(currentPagination.currentPage, parseInt(event.target.value));
+
+  setCurrentProducts(products);
+  render(currentProducts, currentPagination);
 });
+
 
 selectPage.addEventListener('change', event => {
   fetchProducts(parseInt(event.target.value), currentPagination.pageSize)
@@ -147,6 +149,8 @@ selectPage.addEventListener('change', async(event) => {
 
 
 });
+
+
 document.addEventListener('DOMContentLoaded', async () => {
 
   const products = await fetchProducts();
@@ -174,9 +178,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   });
 
-
-
-
    /**
     * Filter by recent products
     */
@@ -196,57 +197,41 @@ selectRecent.addEventListener('change', async(event) => {
     * Filter by reasonable price
     */
 
-selectReasonable.addEventListener('change', async(event) => {
-  var products = await   fetchProducts(currentPagination.currentPage,currentPagination.pageCount)
-  setCurrentProducts(products)
-  var filtered =currentProducts.filter(function(item,idx){return item.price<=50});
-  render(filtered, currentPagination);
-
- });
-
-
-  /**
-       *  Sort
-       */
-   function sortByPriceAsc(x){
-    return x.sort(function(x1,x2){return x1.price-x2.price})
-  }
-
-  function sortByDate(x){
-    return x.sort(function(x1,x2){return new Date(x2.released)-new Date(x1.released)})
-  }
-
-selectSort.addEventListener('change', async(event) => {
-var products = await   fetchProducts(currentPagination.currentPage,currentPagination.pageCount)
-setCurrentProducts(products)
- if (event.target.value=="choose") {
-   var products = await   fetchProducts(currentPagination.currentPage,currentPagination.pageCount)
-   setCurrentProducts(products)
-   render(currentProducts, currentPagination)
- }
- else if (event.target.value=="price-asc") {
-   var sorted = sortByPriceAsc(currentProducts)
-   render(currentProducts, currentPagination)
-
- }
- else if (event.target.value=="price-desc") {
-   var sorted = sortByPriceAsc(currentProducts).reverse()
-   render(currentProducts, currentPagination)
-
- }
- else if (event.target.value=="date-asc") {
-   var sorted = sortByDate(currentProducts)
-   render(currentProducts, currentPagination)
-
- }
- else if (event.target.value=="date-desc") {
-   var sorted = sortByDate(currentProducts).reverse()
-   render(currentProducts, currentPagination)
-
- }
-});
+    function sort_By_Price_Asc(currentProducts){
+      let products_by_price = currentProducts.sort((a, b) => a.price - b.price);
+      sortbrand(products_by_price,selectBrand.value);
+    }
+    
+    
+    function sort_By_Price_Desc(currentProducts){
+      let products_by_price = currentProducts.sort((a, b) => b.price - a.price);
+      sortbrand(products_by_price,selectBrand.value);
+    }
 
 
+    function compare_date_asc(a,b){
+      if (a.released < b.released){
+        return 1;
+      }
+      else if (a.released > b.released) {
+        return -1;
+      }
+      else {
+        return 0;
+      }
+    }
+
+    function compare_date_desc(a,b){
+      if (a.released>b.released){
+        return 1;
+      }
+      else if (a.released<b.released){
+        return -1;
+      }
+      else {
+        return 0;
+      }
+    }
 
 
 
