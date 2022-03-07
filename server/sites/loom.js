@@ -52,6 +52,7 @@ module.exports.scrape = async url => {
 
       return parse(body);
     }
+    
 
     console.error(response);
 
