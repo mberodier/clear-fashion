@@ -4,15 +4,12 @@ const fs = require('fs');
 
 const MONGODB_DB_NAME = 'clearfashion';
 const MONGODB_COLLECTION = 'products';
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = "mongodb+srv://dbMB:bj4dOdPA4ALToMmr@cluster0.hkkh7.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 let client = null;
 let database = null;
 
-/**
- * Get db connection
- * @type {MongoClient}
- */
+
 const getDB = module.exports.getDB = async () => {
   try {
     if (database) {
@@ -32,11 +29,7 @@ const getDB = module.exports.getDB = async () => {
   }
 };
 
-/**
- * Insert list of products
- * @param  {Array}  products
- * @return {Object}
- */
+
 module.exports.insert = async products => {
   try {
     const db = await getDB();
@@ -55,11 +48,7 @@ module.exports.insert = async products => {
   }
 };
 
-/**
- * Find products based on query
- * @param  {Array}  query
- * @return {Array}
- */
+
 module.exports.find = async query => {
   try {
     const db = await getDB();
