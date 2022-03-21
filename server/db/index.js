@@ -72,3 +72,90 @@ module.exports.close = async () => {
     console.error('🚨 MongoClient.close...', error);
   }
 };
+
+
+module.exports.findAllProducts = async (printResults = false) => {
+  const db = await getDB();
+  const collection=db.collection(MONGODB_COLLECTION);
+  const result = await collection.find().toArray()
+  
+  return result
+}
+
+
+module.exports.aggregate = async query => {
+  try {
+    const db = await getDB();
+    const collection = db.collection(MONGODB_COLLECTION);
+    const result = await collection.aggregate(query).toArray();
+
+    return result;
+  } catch (error) {
+    console.error('🚨 collection.find...', error);
+    return null;
+  }
+};
+
+module.exports.filteredproducts = async (limit, brand, price) => {
+  try {
+    const db = await getDB();
+    const collection = db.collection(MONGODB_COLLECTION);
+    const result = await collection.find({'brand':brand,'price':{$lte:price}}).limit(limit).toArray();
+
+    return result;
+  } catch (error) {
+    console.error('collection.find..', error);
+    return null;
+  }
+}
+
+
+
+module.exports.findPage = async (page,size,query=null) => {
+  try {
+    const db = await getDB();
+    const collection = db.collection(MONGODB_COLLECTION);
+    const offset = page ? page * size : 0;
+    let result;
+    if(query==undefined){
+      result = await collection.find({}).skip(offset)
+                  .limit(size).toArray(); 
+    }else{
+      result = await collection.find(query).skip(offset)
+                  .limit(size).toArray(); 
+    }
+    
+    return result;
+  } catch (error) {
+    console.error('🚨 collection.findPage...', error);
+    return null;
+  }
+};
+
+
+module.exports.getMeta = async(page, size,query=null ) => {
+  const db = await getDB();
+  const collection = db.collection(MONGODB_COLLECTION);
+  let count;
+  if (query==null){
+    count = await collection.count();
+  }
+  else{
+    count = await collection.find(query).count();
+  }
+  
+  const pageCount = Math.ceil(count/size);
+  return {"currentPage" : page,"pageCount":pageCount,"pageSize":size,"count":count} 
+}
+
+
+/**
+ * Close the connection
+ */
+module.exports.close = async () => {
+  try {
+    await client.close();
+  } catch (error) {
+    console.error('🚨 MongoClient.close...', error);
+  }
+};
